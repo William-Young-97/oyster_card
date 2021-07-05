@@ -1,15 +1,16 @@
 class Oystercard
 
-attr_reader :bal
-MAXIMUM_BALANCE = 90
+  attr_reader :balance
+  MAXIMUM_BALANCE = 90
 
-    def initialize
-        @bal = 0
-    end
+  def initialize
+    @balance = 0
+  end
 
-    def top_up(amt)
-        fail "Your balance is already: £#{@bal}. This transaction would take over the £#{MAXIMUM_BALANCE} limit." if (@bal+amt) > 90
-        @bal += amt
-    end
-
+  def top_up(amount)
+    fail "Your balance is already: £#{@balance}."\
+    "This transaction would take over the £#{MAXIMUM_BALANCE} limit."\
+    if (@balance+amount) > 90
+    @balance += amount
+  end
 end
