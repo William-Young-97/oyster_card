@@ -6,4 +6,8 @@ attr_reader :bal
         @bal = 0
     end
 
+    def top_up(amt)
+        @bal += amt
+    end
+
 end
