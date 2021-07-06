@@ -16,10 +16,6 @@ class Oystercard
     if (@balance+amount) > 90
     @balance += amount
   end
-
-  def deduct(amount)
-    @balance -= amount
-  end
   
   def touch_in
     fail "Require at least £#{MINIMUM} to travel." if @balance < 1
@@ -27,6 +23,13 @@ class Oystercard
   end
 
   def touch_out
+    deduct(MINIMUM)
     @in_use = false
+  end
+
+  private
+
+  def deduct(amount)
+    @balance -= amount
   end
 end

@@ -32,7 +32,7 @@ describe Oystercard do
 
   describe '#deduct' do
     it 'Will deduct a given amount' do
-      expect{ subject.deduct(1) }.to change{ subject.balance }.by(-1)
+      expect{ subject.send(:deduct, 1) }.to change{ subject.balance }.by(-1)
     end
   end
 
@@ -58,6 +58,11 @@ describe Oystercard do
       subject.in_use = true
       expect(subject.touch_out).to be(false)
     end
+
+    it 'Will charge minimum fare you when you touch out' do
+      expect{ subject.touch_out }.to change{ subject.balance }.by(-minimum)
+    end
+
   end
 
 
