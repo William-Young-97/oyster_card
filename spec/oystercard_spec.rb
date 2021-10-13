@@ -24,4 +24,16 @@ describe Oystercard do
       expect(subject.deduct(49)).to eq(1)
     end
   end
+
+  describe '#touch_in' do
+    it 'Sets in_journey status to true' do
+      expect(subject.touch_in).to be true
+    end
+  end
+
+  describe '#touch_out' do
+    it 'Sets in_journey status to false' do
+      expect(subject.touch_out).to be false
+    end
+  end
 end
