@@ -3,7 +3,7 @@ require 'oystercard'
 describe Oystercard do
   describe '#balance' do
     it "Shows current balance" do
-      expect(subject.balance).to eq(0)
+      expect(subject.balance).to eq(Oystercard::INITIAL_BALANCE)
     end
   end
 
@@ -13,7 +13,8 @@ describe Oystercard do
       expect(subject.balance).to eq(5)
     end
     it 'Raises an error if adding over £90 total' do
-      expect{subject.top_up(91)}.to raise_error("Cannot exceed £90")
+      subject.top_up(Oystercard::MAX_BALANCE)
+      expect{subject.top_up(1)}.to raise_error("Cannot exceed £90")
     end
   end
 end
