@@ -27,7 +27,11 @@ describe Oystercard do
 
   describe '#touch_in' do
     it 'Sets in_journey status to true' do
+      subject.top_up(Oystercard::MIN_AMOUNT)
       expect(subject.touch_in).to be true
+    end
+    it 'Raises an error if not at least £1 on card' do
+      expect{subject.touch_in}.to raise_error("£1 required for travel")
     end
   end
 
