@@ -17,4 +17,11 @@ describe Oystercard do
       expect{subject.top_up(1)}.to raise_error("Cannot exceed £90")
     end
   end
+
+  describe '#deduct' do
+    it 'Deducts a specific amount from the balance' do
+      subject.top_up(50)
+      expect(subject.deduct(49)).to eq(1)
+    end
+  end
 end
