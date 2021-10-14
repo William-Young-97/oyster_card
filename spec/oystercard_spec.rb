@@ -20,8 +20,8 @@ describe Oystercard do
 
   describe '#deduct' do
     it 'Deducts a specific amount from the balance' do
-      subject.top_up(50)
-      expect(subject.deduct(49)).to eq(1)
+      subject.top_up(Oystercard::MIN_FARE)
+      expect(subject.deduct(2)).to eq(0)
     end
   end
 
@@ -41,7 +41,7 @@ describe Oystercard do
       expect(subject.in_journey).to be false
     end
     it 'Deducts money from card once journey is complete' do
-      subject.top_up(2)
+      subject.top_up(Oystercard::MIN_FARE)
       expect{ subject.touch_out }.to change{ subject.balance }.from(2).to(0)
     end
   end
