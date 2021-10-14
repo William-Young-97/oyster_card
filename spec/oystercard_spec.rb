@@ -37,7 +37,12 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'Sets in_journey status to false' do
-      expect(subject.touch_out).to be false
+      subject.touch_out
+      expect(subject.in_journey).to be false
+    end
+    it 'Deducts money from card once journey is complete' do
+      subject.top_up(2)
+      expect{ subject.touch_out }.to change{ subject.balance }.from(2).to(0)
     end
   end
 end
