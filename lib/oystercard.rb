@@ -26,6 +26,7 @@ class Oystercard
   def touch_out
     @in_journey = false
     deduct
+    @stations = [nil]
   end
 
   private
