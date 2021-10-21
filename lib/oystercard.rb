@@ -9,7 +9,7 @@ class Oystercard
   def initialize
     @balance = INITIAL_BALANCE
     @in_journey = false
-    @stations = []
+    @stations = {}
   end
   
   def top_up(amount)
@@ -17,16 +17,16 @@ class Oystercard
     @balance += amount
   end
   
-  def touch_in(station)
+  def touch_in(entry_station)
     fail "£1 required for travel" if minimum_limit
     @in_journey = true
-    station_pusher(station)
+    station_pusher(entry_station)
   end
 
   def touch_out
     @in_journey = false
     deduct
-    @stations = [nil]
+    @stations = {nil => nil}
   end
 
   private
@@ -43,8 +43,8 @@ class Oystercard
     @balance < MIN_AMOUNT
   end
 
-  def station_pusher(station)
-    @stations.push(station)
+  def station_pusher(entry_station)
+    @stations[entry_station] = nil
   end
 
 end

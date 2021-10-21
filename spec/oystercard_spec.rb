@@ -38,7 +38,7 @@ describe Oystercard do
     it 'Saves your current station' do
       subject.top_up(Oystercard::MIN_AMOUNT)
       p subject.touch_in(entry_station)
-      expect(subject.stations).to eq([entry_station]) 
+      expect(subject.stations).to eq({entry_station => nil}) 
     end
   end
 
@@ -51,7 +51,7 @@ describe Oystercard do
       subject.top_up(Oystercard::MIN_AMOUNT)
       p subject.touch_in(entry_station)
       subject.touch_out
-      expect(subject.stations).to eq([nil])
+      expect(subject.stations).to eq({nil => nil})
     end
   end
 end
