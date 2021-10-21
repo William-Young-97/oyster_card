@@ -21,7 +21,7 @@ class Oystercard
   def touch_in(entry_station)
     fail "£1 required for travel" if minimum_limit
     @in_journey = true
-    p station_pusher(entry_station)
+    station_pusher(entry_station)
   end
 
   def touch_out(exit_station)
