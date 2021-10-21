@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   let(:entry_station) {double(:entry_station)}
+  let(:exit_station) {double(:exit_station)}
   describe '#balance' do
     it "Shows current balance" do
       expect(subject.balance).to eq(Oystercard::INITIAL_BALANCE)
@@ -22,7 +23,7 @@ describe Oystercard do
   describe '#deduct' do
     it 'Deducts money from card once journey is complete' do
       subject.top_up(Oystercard::MIN_FARE)
-      expect{ subject.touch_out }.to change{ subject.balance }.from(2).to(0)
+      expect{ subject.touch_out(exit_station) }.to change{ subject.balance }.from(2).to(0)
     end
   end
 
@@ -37,21 +38,21 @@ describe Oystercard do
     end
     it 'Saves your current station' do
       subject.top_up(Oystercard::MIN_AMOUNT)
-      p subject.touch_in(entry_station)
-      expect(subject.stations).to eq({entry_station => nil}) 
+      subject.touch_in(entry_station)
+      expect(subject.journeys).to eq([{entry_station => nil}]) 
     end
   end
 
   describe '#touch_out' do
     it 'Sets in_journey status to false' do
-      subject.touch_out
+      subject.touch_out(exit_station)
       expect(subject.in_journey).to be false
     end
     it 'Sets the entry station to nil' do
       subject.top_up(Oystercard::MIN_AMOUNT)
-      p subject.touch_in(entry_station)
-      subject.touch_out
-      expect(subject.stations).to eq({nil => nil})
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to eq([{nil => exit_station}])
     end
   end
 end
