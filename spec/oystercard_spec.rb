@@ -1,11 +1,13 @@
 require 'oystercard'
 
 describe Oystercard do
-  let(:entry_station) {double(:entry_station)}
-  let(:exit_station) {double(:exit_station)}
+  let(:oystercard) { Oystercard.new }
+  let(:entry_station) {double(:entry_station, zone: 1)}
+  let(:exit_station) {double(:exit_station, zone: 4)}
+  let(:journey) {Journey.new(entry_station, oystercard)}
   describe '#balance' do
     it "Shows current balance" do
-      expect(subject.balance).to eq(Oystercard::INITIAL_BALANCE)
+      expect(oystercard.balance).to eq(Oystercard::INITIAL_BALANCE)
     end
   end
 
@@ -22,37 +24,9 @@ describe Oystercard do
 
   describe '#deduct' do
     it 'Deducts money from card once journey is complete' do
-      subject.top_up(Oystercard::MIN_FARE)
-      expect{ subject.touch_out(exit_station) }.to change{ subject.balance }.from(2).to(0)
-    end
-  end
-
-  describe '#touch_in' do
-    it 'Sets in_journey status to true' do
-      subject.top_up(Oystercard::MIN_AMOUNT)
-      subject.touch_in(entry_station)
-      expect(subject.in_journey).to be true
-    end
-    it 'Raises an error if not at least £1 on card' do
-      expect{subject.touch_in(entry_station)}.to raise_error("£1 required for travel")
-    end
-    it 'Saves your current station' do
-      subject.top_up(Oystercard::MIN_AMOUNT)
-      subject.touch_in(entry_station)
-      expect(subject.journeys).to eq([{entry_station => nil}]) 
-    end
-  end
-
-  describe '#touch_out' do
-    it 'Sets in_journey status to false' do
-      subject.touch_out(exit_station)
-      expect(subject.in_journey).to be false
-    end
-    it 'Sets the entry station to nil' do
-      subject.top_up(Oystercard::MIN_AMOUNT)
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.journeys).to eq([{nil => exit_station}])
+      oystercard.top_up(Oystercard::MIN_FARE)
+      journey
+      expect{ journey.finish(exit_station) }.to change{ oystercard.balance }.from(2).to(0)
     end
   end
 end
