@@ -1,6 +1,7 @@
 require_relative 'oystercard'
 
 class Journey
+
   PENALTY_FARE = 6
   attr_reader :entry_station, :oystercard, :journeys
 
@@ -36,11 +37,6 @@ class Journey
   def calculate_zone_charge
     diff = (@journeys[0].zone - @journeys[1].zone).abs
     @oystercard.deduct(@zone_charges[diff]) 
+    @zone_charges[diff]
   end
 end
-
-# Journey should set in journey variable to true
-# Can see when journey started
-# Can see where journey ends
-# Can calculate journey fair
-# TDD this
