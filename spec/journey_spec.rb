@@ -5,7 +5,7 @@ describe Journey do
  
   let(:entry_station) { double(:entry_station, zone: 1) }
   let(:oystercard) { double(:oystercard, balance: 0) }
-  let(:topped_oyster) { double(:oystercard, balance: 2) }
+  let(:topped_oyster) { double(:oystercard, balance: 2, deduct: 6) }
   let(:journey) { Journey.new(entry_station, topped_oyster) }
 
   it 'Raises an error if not at least £1 on card' do
@@ -22,13 +22,9 @@ describe Journey do
     expect(journey.journeys).to eq([entry_station, nil])
   end
 
-  # it 'has a penalty fare by default' do
-  #   expect(subject.fare).to eq Journey::PENALTY_FARE
-  # end
-
-  # it "returns itself when exiting a journey" do
-  #   expect(subject.finish(station)).to eq(subject)
-  # end
+  it 'has a penalty fare by default' do
+    expect(journey.fare).to eq Journey::PENALTY_FARE
+  end
 
   # context 'given an entry station' do
   #   subject {described_class.new(entry_station: station)}
